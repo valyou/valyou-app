@@ -131,14 +131,78 @@ Template.sliders.events({
 
 var dropdownReactive = new ReactiveVar("select a role");
 
+var rolePropertiesArray = new ReactiveVar(["select"])
+
+var _rolePropertiesHelper = function(selectedRole){
+  switch(selectedRole){
+    case "1":
+      var properties = [
+        "property 1.1",
+        "property 1.2",
+        "property 1.3",
+        "property 1.4",
+        "property 1.5"
+      ]
+      rolePropertiesArray.set(properties);
+    break;
+    case "2":
+      var properties = [
+          "property 2.1",
+          "property 2.2",
+          "property 2.3",
+          "property 2.4",
+          "property 2.5"
+        ]
+      rolePropertiesArray.set(properties);
+    break;
+    case "3":
+      var properties = [
+          "property 3.1",
+          "property 3.2",
+          "property 3.3",
+          "property 3.4",
+          "property 3.5"
+        ]
+      rolePropertiesArray.set(properties);
+    break;
+    case "4":
+      var properties = [
+          "property 4.1",
+          "property 4.2",
+          "property 4.3",
+          "property 4.4",
+          "property 4.5"
+        ]
+      rolePropertiesArray.set(properties);
+    break;
+    case "5":
+      var properties = [
+          "property 5.1",
+          "property 5.2",
+          "property 5.3",
+          "property 5.4",
+          "property 5.5"
+        ]
+      rolePropertiesArray.set(properties);
+    break;
+    default:
+    break;
+  }
+}
+
+var _setRolePropertiesHelper = function(val){
+  _rolePropertiesHelper(val);
+}
+
 Template.dropdown.helpers({
 	roleProperties : function(){
-		return ["1","2","3","4"];
+		return rolePropertiesArray.get();
 	}
 })
 
 Template.dropdown.events({
-  'change select' : function(){
-    console.log("select changed");
+  'change select' : function(ev, tmpl){
+    // console.log(ev.currentTarget.value);
+    _setRolePropertiesHelper(ev.currentTarget.value);
   }
 })
