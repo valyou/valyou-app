@@ -1,10 +1,48 @@
 <template name="home">
 	<div class="container">
 		<div class="row">
-			<div class="col-lg-12">
+			<div class="col-lg-2">
+				{{> dropdown}}
+				{{> sliders}}
+			</div>
+			<div class="col-lg-10">
 				<div id="map" style="width: 1000px; height: 600px"></div>
 				<div id="info"></div>
 			</div>		
 		</div>
 	</div>
+</template>
+
+<template name="sliders">
+
+	<span>Type1</span>
+	<div id="slider"></div>
+  <p>Left value: {{slider.[0]}}, right value: {{slider.[1]}}</p>
+
+  <span>Type2</span>
+  <div id="slider2"></div>
+
+  <span>Type3</span>
+  <div id="slider3"></div>
+
+  <span>Type4</span>
+  <div id="slider4"></div>
+
+  <span>Type5</span>
+  <div id="slider5"></div>	
+</template>
+
+<template name="dropdown">
+	<select class="form-control">
+	  <option>1</option>
+	  <option>2</option>
+	  <option>3</option>
+	  <option>4</option>
+	  <option>5</option>
+	</select>
+	<select class="form-control">
+		{{#each roleProperties}}
+			<option>{{this}}</option>
+		{{/each}}
+	</select>
 </template>

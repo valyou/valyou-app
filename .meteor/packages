@@ -10,3 +10,7 @@ insecure
 twbs:bootstrap
 iron:router
 bevanhunt:leaflet
+rcy:nouislider
+aldeed:autoform
+http
+aldeed:collection2

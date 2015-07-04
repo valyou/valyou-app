@@ -1,3 +1,6 @@
+aldeed:autoform@5.3.0
+aldeed:collection2@2.3.1
+aldeed:simple-schema@1.1.0
 autopublish@1.0.3
 autoupdate@1.2.1
 base64@1.0.3
@@ -36,10 +39,12 @@ meteor-platform@1.2.2
 minifiers@1.1.5
 minimongo@1.0.8
 mobile-status-bar@1.0.3
+momentjs:moment@2.8.4
 mongo@1.1.0
 observe-sequence@1.0.6
 ordered-dict@1.0.3
 random@1.0.3
+rcy:nouislider@7.0.7_2
 reactive-dict@1.1.0
 reactive-var@1.0.5
 reload@1.1.3
