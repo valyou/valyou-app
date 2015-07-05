@@ -9,6 +9,7 @@ var type6Slider = new ReactiveVar(0);
 var mapJson;
 var map;
 var sidebar;
+var max;
 
 // Load / initialise layer map
 var loadLayerMap = function(jsonFile) {
@@ -77,7 +78,7 @@ Template.home.rendered = function(){
   var ZOOM_LVL = 5;
   
   // GeoJSON source URL path
-  var GEOJSON_URL = '/SA2_cutdown_web.geojson';
+  var GEOJSON_URL = 'SA2_cutdown_web.geojson';
 
   // Use jQuery to set container to 100% width and height
   var CONT_X = $(window).width();
@@ -125,6 +126,7 @@ Template.sliders.rendered = function(){
 			'max': 10
 		}
 	}).on('slide change', function (ev, val) {
+    console.log("slider1 - val = ",val);
     // set real values on 'slide' event
     type1Slider.set(val);
     redrawMap();
@@ -138,6 +140,7 @@ Template.sliders.rendered = function(){
 			'max': 10
 		}
   }).on('slide change', function (ev, val) {
+    console.log("slider2 - val = ",val);
     // set real values on 'slide' event
     type2Slider.set(val);
     redrawMap();
@@ -151,6 +154,7 @@ Template.sliders.rendered = function(){
 			'max': 10
 		}
   }).on('slide change', function (ev, val) {
+    console.log("slider3 - val = ",val);
     // set real values on 'slide' event
     type3Slider.set(val);
     redrawMap();
@@ -164,6 +168,7 @@ Template.sliders.rendered = function(){
 			'max': 10
 		}
   }).on('slide change', function (ev, val) {
+    console.log("slider4 - val = ",val);
     // set real values on 'slide' event
     type4Slider.set(val);
     redrawMap();
@@ -177,6 +182,7 @@ Template.sliders.rendered = function(){
 			'max': 10
 		}
   }).on('slide change', function (ev, val) {
+    console.log("slider5 - val = ",val);
     // set real values on 'slide' event
     type5Slider.set(val);
     redrawMap();
@@ -191,6 +197,7 @@ Template.sliders.rendered = function(){
 		}
   }).on('slide change', function (ev, val) {
     // set real values on 'slide' event
+    console.log("slider6 - val = ",val);
     type6Slider.set(val);
     redrawMap();
   });
@@ -291,7 +298,38 @@ var _rolePropertiesHelper = function(selectedRole){
 }
 
 var _setRolePropertiesHelper = function(val){
-  _rolePropertiesHelper(val);
+  // _rolePropertiesHelper(val);
+  switch(val) {
+    case "Investment Opportunities":
+      // console.log("Investment Opportunities Selected");
+      // adjustSliders([8,5,1,7,8,1]);
+      adjustSliders([5,1,1,7,8,8,7])
+      redrawMap();
+      // mapJson.eachLayer(function (layer) {
+
+      //   aboriginal_value + conservation_value + ecology_value + economy_value + energy_value + mine_value + pop_value) / 7 * 0.9
+      //   layer.setStyle({ fillOpacity: getWeighted(layer.feature) });
+      // });
+      break;
+      
+    case "Environmental Awareness":
+      // console.log("Environmental Awareness Selected");
+      adjustSliders([7,10,10,4,1,1]);
+      // redrawMap();
+      break;
+      
+    case "Cultural Significance":
+      // console.log("Cultural Significance Selected");
+      adjustSliders([10,8,10,5,3,3]);
+      // redrawMap();
+      break;
+      
+    default:
+      adjustSliders([0,0,0,0,0,0]);
+      // redrawMap();
+      break;
+  }
+
 };
 
 Template.dropdown.helpers({
@@ -300,23 +338,8 @@ Template.dropdown.helpers({
 	}
 });
 
-var _setSliderPropertiesHelper = function(val){
-  switch(val) {
-    case "property 1.1":
-      console.log("case: property1.1 ");
-      adjustSliders([11,22,33,44,55]);
-    break;
-    case "property 1.2":
-      console.log("case: property1.2");
-      adjustSliders([22,33,44,55,66]);
-    break;
-    default:
-      adjustSliders([0,0,0,0,0]);
-    break;
-  }
-};
-
 var adjustSliders = function(val) {
+  console.log("adjustSliders()", val);
   type1Slider.set(val[0]);
   type2Slider.set(val[1]);
   type3Slider.set(val[2]);
@@ -325,7 +348,7 @@ var adjustSliders = function(val) {
   type6Slider.set(val[5]);
 
   var stringConcat = function(number){
-    return "left:" + number + "%";
+    return "left:" + number * 10 + "%";
   }
 
   // var firstStyle = "left:" + type1Slider.get() +"%";
@@ -335,7 +358,6 @@ var adjustSliders = function(val) {
   $("#slider4").children().children().attr("style", stringConcat(type4Slider.get()));
   $("#slider5").children().children().attr("style", stringConcat(type5Slider.get()));
   $("#slider6").children().children().attr("style", stringConcat(type6Slider.get()));
-
 }
 
 Template.dropdown.events({
