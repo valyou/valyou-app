@@ -62,7 +62,8 @@ function getWeighted(feature) {
   var ecology_value = props.category_totals_ecology_value * type3Slider.get() / 100;
   var economy_value = props.category_totals_economy_value * type4Slider.get() / 100;
   var energy_value = props.category_totals_energy_value * type5Slider.get() / 100;
-  return (aboriginal_value + conservation_value + ecology_value + economy_value + energy_value) / 5;
+  var mine_value = props.category_totals_mine_value * type6Slider.get() / 100;
+  return (aboriginal_value + conservation_value + ecology_value + economy_value + energy_value + mine_value) / 6;
 }
 
 Template.home.rendered = function(){
