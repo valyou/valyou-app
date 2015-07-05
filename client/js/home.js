@@ -1,9 +1,9 @@
-var type1Slider = new ReactiveVar(1);
-var type2Slider = new ReactiveVar(1);
-var type3Slider = new ReactiveVar(1);
-var type4Slider = new ReactiveVar(1);
-var type5Slider = new ReactiveVar(1);
-var type6Slider = new ReactiveVar(1);
+var type1Slider = new ReactiveVar(0);
+var type2Slider = new ReactiveVar(0);
+var type3Slider = new ReactiveVar(0);
+var type4Slider = new ReactiveVar(0);
+var type5Slider = new ReactiveVar(0);
+var type6Slider = new ReactiveVar(0);
 
 // Global GeoJSON and Map reference
 var mapJson;
@@ -61,7 +61,8 @@ function getWeighted(feature) {
   var conservation_value = props.category_totals_conservation_value * type2Slider.get() / 100;
   var ecology_value = props.category_totals_ecology_value * type3Slider.get() / 100;
   var economy_value = props.category_totals_economy_value * type4Slider.get() / 100;
-  return (aboriginal_value + conservation_value + ecology_value + economy_value) / 4;
+  var energy_value = props.category_totals_energy_value * type5Slider.get() / 100;
+  return (aboriginal_value + conservation_value + ecology_value + economy_value + energy_value) / 5;
 }
 
 Template.home.rendered = function(){
@@ -117,7 +118,7 @@ Template.sliders.rendered = function(){
 		start: type1Slider.get(),
     step: 1,
 		range: {
-			'min': 1,
+			'min': 0,
 			'max': 10
 		}
 	}).on('slide change', function (ev, val) {
@@ -130,7 +131,7 @@ Template.sliders.rendered = function(){
   	start: type2Slider.get(),
     step: 1,
 		range: {
-			'min': 1,
+			'min': 0,
 			'max': 10
 		}
   }).on('slide change', function (ev, val) {
@@ -143,7 +144,7 @@ Template.sliders.rendered = function(){
   	start: type3Slider.get(),
     step: 1,
 		range: {
-			'min': 1,
+			'min': 0,
 			'max': 10
 		}
   }).on('slide change', function (ev, val) {
@@ -156,7 +157,7 @@ Template.sliders.rendered = function(){
   	start: type4Slider.get(),
     step: 1,
 		range: {
-			'min': 1,
+			'min': 0,
 			'max': 10
 		}
   }).on('slide change', function (ev, val) {
@@ -169,7 +170,7 @@ Template.sliders.rendered = function(){
   	start: type5Slider.get(),
     step: 1,
 		range: {
-			'min': 1,
+			'min': 0,
 			'max': 10
 		}
   }).on('slide change', function (ev, val) {
@@ -182,7 +183,7 @@ Template.sliders.rendered = function(){
   	start: type6Slider.get(),
     step: 1,
 		range: {
-			'min': 1,
+			'min': 0,
 			'max': 10
 		}
   }).on('slide change', function (ev, val) {
