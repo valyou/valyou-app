@@ -9,7 +9,7 @@ var mapJson;
 var map;
 
 // Load / initialise layer map
-var loadLayerMap = function(jsonFile){
+var loadLayerMap = function(jsonFile) {
   $.getJSON(jsonFile, function(data) {
     mapJson = L.geoJson(data, { style: style }, { onEachFeature: onEachFeature });
     drawMap("anything");
@@ -17,12 +17,19 @@ var loadLayerMap = function(jsonFile){
 };
 
 // Draw / toggle map layer
-var drawMap = function(value){
-  if (map.hasLayer() && mapJson){
+var drawMap = function(value) {
+  if (map.hasLayer() && mapJson) {
     map.removeLayer(mapJson);
   }
   
   map.addLayer(mapJson);
+}
+
+// Redraw map layer
+var redrawMap = function() {
+  mapJson.eachLayer(function (layer) {      
+    layer.setStyle({ fillOpacity: getRandomInt(1, 10) / 10 });
+  });
 }
   
 // Apply a function on each map layer feature
@@ -104,9 +111,11 @@ Template.sliders.rendered = function(){
 	}).on('slide', function (ev, val) {
     // set real values on 'slide' event
     type1Slider.set(val);
+    redrawMap();
   }).on('change', function (ev, val) {
     // round off values on 'change' event
     type1Slider.set(val);
+    redrawMap();
   });
 
   this.$("#slider2").noUiSlider({
