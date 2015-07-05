@@ -4,6 +4,48 @@ var type3Slider = new ReactiveVar(0);
 var type4Slider = new ReactiveVar(0);
 var type5Slider = new ReactiveVar(0);
 
+// Global GeoJSON and Map reference
+var mapJson;
+var map;
+
+// Load / initialise layer map
+var loadLayerMap = function(jsonFile){
+  $.getJSON(jsonFile, function(data) {
+    mapJson = L.geoJson(data, { style: style }, { onEachFeature: onEachFeature });
+    drawMap("anything");
+  });
+};
+
+// Draw / toggle map layer
+var drawMap = function(value){
+  if (map.hasLayer() && mapJson){
+    map.removeLayer(mapJson);
+  }
+  
+  map.addLayer(mapJson);
+}
+  
+// Apply a function on each map layer feature
+function onEachFeature(feature, layer) {
+  layer.bindPopup(feature.properties.SA2_NAME11);
+}
+
+// Apply a styling on each map layer feature
+function style(feature) {
+  return {
+      weight: 2,
+      opacity: 1,
+      color: 'green',
+      dashArray: '3',
+      fillOpacity: getRandomInt(1, 10) / 10
+  };
+}
+
+// Convenience function: Get random integer within a range
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
 Template.home.rendered = function(){
   // ------------------------------------------------------------
   // Constants
@@ -21,6 +63,7 @@ Template.home.rendered = function(){
   var CONT_Y = $(window).height();
   
   
+  
   // ------------------------------------------------------------
   // Leaflet + MapBox + SideBar
   // ------------------------------------------------------------
@@ -35,8 +78,8 @@ Template.home.rendered = function(){
           
   // Set map's viewport to full width and height before initialisation
   // $('#map').css({ width: CONT_X, height: CONT_Y });
-  var map = L.map('map').addLayer(tiles).setView([AUS_LAT, AUS_LNG], ZOOM_LVL);
-  
+  map = L.map('map').addLayer(tiles).setView([AUS_LAT, AUS_LNG], ZOOM_LVL);
+
   var i = 30;
   var icon_azure = L.icon({
     iconUrl: 'img/icon_azure.png',
@@ -45,37 +88,10 @@ Template.home.rendered = function(){
     popupAnchor: [0, -i]
   });
 
-  // L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
-  //   maxZoom: 19,
-  //   id: 'examples.map-i875mjb7'
-  // }).addTo(map);//free MapBox basemap
-
-  gj01=Meteor.absoluteUrl(GEOJSON_URL);
-  
-  $.getJSON(gj01, function(data) {
-    var places = L.geoJson(data, { style: style }, { onEachFeature: onEachFeature });
-    map.addLayer(places);
-  });
-  
-  // Apply a function on each map layer feature
-  function onEachFeature(feature, layer) {
-    layer.bindPopup(feature.properties.SA2_NAME11);
-  }
-  
-  function style(feature) {
-    return {
-        weight: 2,
-        opacity: 1,
-        color: 'green',
-        dashArray: '3',
-        fillOpacity: getRandomInt(1, 10) / 10
-    };
-  }
- 
-  // Convenience function: Get random integer within a range
-  function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min)) + min;
-  }
+  // Load GeoJSON after everything is initialised,
+  // and load / draw the layer map
+  gj01 = Meteor.absoluteUrl(GEOJSON_URL);
+  loadLayerMap(gj01);
 }
 
 Template.sliders.rendered = function(){
@@ -116,6 +132,7 @@ Template.sliders.rendered = function(){
   }).on('slide', function (ev, val) {
     // set real values on 'slide' event
     type3Slider.set(val);
+    drawMap()
   }).on('change', function (ev, val) {
     // round off values on 'change' event
     type3Slider.set(val);
@@ -174,6 +191,10 @@ Template.sliders.events({
   }
 });
 
+var redraw = function(changeVal){
+
+}
+
 var dropdownReactive = new ReactiveVar("select a role");
 
 var rolePropertiesArray = new ReactiveVar(["select"])
@@ -182,6 +203,7 @@ var _rolePropertiesHelper = function(selectedRole){
   switch(selectedRole){
     case "1":
     var properties = [
+    "select",
     "property 1.1",
     "property 1.2",
     "property 1.3",
@@ -192,6 +214,7 @@ var _rolePropertiesHelper = function(selectedRole){
     break;
     case "2":
     var properties = [
+    "select",
     "property 2.1",
     "property 2.2",
     "property 2.3",
@@ -202,6 +225,7 @@ var _rolePropertiesHelper = function(selectedRole){
     break;
     case "3":
     var properties = [
+    "select",
     "property 3.1",
     "property 3.2",
     "property 3.3",
@@ -212,6 +236,7 @@ var _rolePropertiesHelper = function(selectedRole){
     break;
     case "4":
     var properties = [
+    "select",
     "property 4.1",
     "property 4.2",
     "property 4.3",
@@ -222,6 +247,7 @@ var _rolePropertiesHelper = function(selectedRole){
     break;
     case "5":
     var properties = [
+    "select",
     "property 5.1",
     "property 5.2",
     "property 5.3",
@@ -256,6 +282,7 @@ var _setSliderPropertiesHelper = function(val){
       adjustSliders([22,33,44,55,66]);
     break;
     default:
+      adjustSliders([0,0,0,0,0]);
     break;
   }
 };
@@ -266,8 +293,17 @@ var adjustSliders = function(val) {
   type3Slider.set(val[2]);
   type4Slider.set(val[3]);
   type5Slider.set(val[4]);
-  var firstStyle = "left:" + type1Slider.get() +"%";
-  $("#slider1").children().children().attr("style", firstStyle);
+
+  var stringConcat = function(number){
+    return "left:" + number + "%";
+  }
+
+  // var firstStyle = "left:" + type1Slider.get() +"%";
+  $("#slider1").children().children().attr("style", stringConcat(type1Slider.get()));
+  $("#slider2").children().children().attr("style", stringConcat(type2Slider.get()));
+  $("#slider3").children().children().attr("style", stringConcat(type3Slider.get()));
+  $("#slider4").children().children().attr("style", stringConcat(type4Slider.get()));
+  $("#slider5").children().children().attr("style", stringConcat(type5Slider.get()));
 
 }
 
