@@ -3,7 +3,7 @@
     <div id="sidebar" class="sidebar collapsed">
         <!-- Nav tabs -->
         <ul class="sidebar-tabs" role="tablist">
-            <li><a href="#home" role="tab"><i class="fa fa-bars"></i></a></li>
+            <li><a href="#categories" role="tab"><i class="fa fa-sliders"></i></a></li>
             <li><a href="#profile" role="tab"><i class="fa fa-user"></i></a></li>
             <li><a href="#messages" role="tab"><i class="fa fa-envelope"></i></a></li>
             <li><a href="#settings" role="tab"><i class="fa fa-gear"></i></a></li>
@@ -11,6 +11,22 @@
 
         <!-- Tab panes -->
         <div class="sidebar-content active">
+            
+            <div class="sidebar-pane" id="categories">
+                <div class="container-fluid">
+                    <div class="row logo">
+                        <img src="/logo-transparent-no-slogan.png" class="logo img-responsive">
+                    </div>
+                    <div class="row">
+        				<h1>Profile</h1>	
+        				{{> dropdown}}
+        			</div>
+                    <div class="row sliders">
+        				{{> sliders}}
+                    </div>
+                </div>
+			</div>
+            
             <div class="sidebar-pane" id="home">
                 <h1>sidebar-v2</h1>
 
@@ -24,12 +40,6 @@
 
                 <p class="lorem">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
             </div>
-            <div class="sidebar-pane" id="profile">
-				<h1>Profile</h1>
-				
-				{{> dropdown}}
-				{{> sliders}}
-			</div>
             <div class="sidebar-pane" id="messages"><h1>Messages</h1></div>
             <div class="sidebar-pane" id="settings"><h1>Settings</h1></div>
         </div>
@@ -44,20 +54,20 @@
 	<span>Aboriginal</span>
 	<div id="slider1"></div>
 
-    <span>Conservation</span>
-  	<div id="slider2"></div>
-
-    <span>Ecology</span>
+    <span>Ecological Diversity</span>
     <div id="slider3"></div>
 
-    <span>Economy</span>
-    <div id="slider4"></div>
-
-    <span>Energy</span>
+    <span>Energy Extraction</span>
     <div id="slider5"></div>
   
-    <span>Mines</span>
+    <span>Mining Activities</span>
     <div id="slider6"></div>
+
+    <span>Population</span>
+    <div id="slider4"></div>
+
+    <span>Protected Areas</span>
+  	<div id="slider2"></div>
 	
     <span>Population</span>
     <div id="slider7"></div>

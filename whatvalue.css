@@ -1,4 +1,48 @@
-/* CSS declarations go here */
-.logo {
-	height: 80px;
+.leaflet-top.leaflet-left {
+	margin-left: 50px;
+}
+
+.noUi-handle {
+	margin-top: -8px;
+	top: 5px;
+	width: 28px !important; height: 28px;
+}
+
+.noUi-handle:before {
+	left: 9px;
+}
+
+.noUi-handle.noUi-active:before {
+	left: 10px;
+}
+
+.noUi-handle:after {
+	left: 14px;
+}
+
+.noUi-handle.noUi-active:after {
+	left: 15px;
+}
+
+.sidebar-pane#categories .logo {
+	border-bottom: 1px solid #e0e0e0;
+}
+
+.sidebar-pane#categories h1 {
+	font-size: 1.5em;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+.sidebar-pane#categories .sliders {
+	padding: 20px 30px 0;
+}
+
+.sidebar-pane#categories .sliders span {
+	margin-left: -30px;
+	text-transform: uppercase;
+}
+
+.sidebar-pane#categories .sliders div {
+	margin-bottom: 30px;
 }
