@@ -56,8 +56,10 @@ function getRandomInt(min, max) {
 
 // Get weighted value
 function getWeighted(feature) {
-  console.log(type1Slider.get() + " / " + feature.properties.category_totals_aboriginal_value + " / " + feature.properties.category_totals_aboriginal_value * type1Slider.get() / 100);
-  return feature.properties.category_totals_aboriginal_value * type1Slider.get() / 10;
+  var props = feature.properties;
+  var aboriginal_value = props.category_totals_aboriginal_value * type1Slider.get() / 10;
+  var conservation_value = props.category_totals_conservation_value * type2Slider.get() / 100;
+  return (aboriginal_value + conservation_value) / 2;
 }
 
 Template.home.rendered = function(){
@@ -113,7 +115,7 @@ Template.sliders.rendered = function(){
 		start: type1Slider.get(),
     step: 1,
 		range: {
-			'min': 0,
+			'min': 1,
 			'max': 10
 		}
 	}).on('slide change', function (ev, val) {
