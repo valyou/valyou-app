@@ -9,7 +9,6 @@ var type6Slider = new ReactiveVar(0);
 var mapJson;
 var map;
 var sidebar;
-var max = 0;
 
 // Load / initialise layer map
 var loadLayerMap = function(jsonFile) {
@@ -77,6 +76,10 @@ Template.home.rendered = function(){
   var AUS_LNG = 123.2;
   var ZOOM_LVL = 5;
   
+  // Preset locations
+  var LOC_PERTH = new L.LatLng(-32, 115.825);
+  var LOC_WA = new L.LatLng(AUS_LAT, AUS_LNG);
+  
   // GeoJSON source URL path
   var GEOJSON_URL = 'SA2_cutdown_web.geojson';
 
@@ -100,7 +103,7 @@ Template.home.rendered = function(){
           
   // Set map's viewport to full width and height before initialisation
   $('#map').css({ width: CONT_X, height: CONT_Y });
-  map = L.map('map').addLayer(tiles).setView([AUS_LAT, AUS_LNG], ZOOM_LVL);
+  map = L.map('map').addLayer(tiles).setView(LOC_PERTH, 10);
   sidebar = L.control.sidebar('sidebar').addTo(map);
 
   var i = 30;
@@ -115,6 +118,14 @@ Template.home.rendered = function(){
   // and load / draw the layer map
   gj01 = Meteor.absoluteUrl(GEOJSON_URL);
   loadLayerMap(gj01);
+  
+  this.$('#wa-btn').click(function() {
+    map.setView([AUS_LAT, AUS_LNG], ZOOM_LVL, { animation: true });
+  });
+  
+  this.$('#perth-btn').click(function() {
+    map.setView(LOC_PERTH, 10, { animation: true });
+  });
 }
 
 Template.sliders.rendered = function(){

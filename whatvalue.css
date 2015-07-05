@@ -24,11 +24,11 @@
 	left: 15px;
 }
 
-.sidebar-pane#categories .logo {
+.sidebar-pane .logo {
 	border-bottom: 1px solid #e0e0e0;
 }
 
-.sidebar-pane#categories h1 {
+.sidebar-pane h1 {
 	font-size: 1.5em;
 	font-weight: bold;
 	text-transform: uppercase;
