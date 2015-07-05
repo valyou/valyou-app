@@ -14,8 +14,13 @@ var max;
 // Load / initialise layer map
 var loadLayerMap = function(jsonFile) {
   $.getJSON(jsonFile, function(data) {
-    mapJson = L.geoJson(data, { style: style }, { onEachFeature: onEachFeature });
+    mapJson = L.geoJson(data, { 
+        style: style, 
+        onEachFeature: onEachFeature
+      });
+    
     drawMap("anything");
+
   });
 };
 
@@ -37,7 +42,30 @@ var redrawMap = function() {
   
 // Apply a function on each map layer feature
 function onEachFeature(feature, layer) {
-  layer.bindPopup(feature.properties.SA2_NAME11);
+  var opening = '<div class="checkpoint"><h2>';
+  var ending = '</div>';
+  var h2title = '<h2>'+feature.properties.SA2_NAME11+'</h2>';
+  var h3title = '<h3>'+feature.properties.SA3_NAME11+'</h3>';
+
+  var openingParagraph = '<p>';
+  var closingParagraph = '</p>';
+
+  var aboriginal = 'Aboriginal = ' + Math.floor(feature.properties.category_totals_aboriginal_value);
+  var protectedAreas = 'Protected Areas =' + Math.floor(feature.properties.category_totals_conservation_value);
+  var ecologyDiversity = 'Ecology Diversity = ' + Math.floor(feature.properties.category_totals_ecology_value);
+  var population = 'Population = ' + Math.floor(feature.properties.category_totals_economy_value);
+  var energyExtraction = 'Energy Extraction =' + Math.floor(feature.properties.category_totals_energy_value);
+  var mining = 'Mining = ' + Math.floor(feature.properties.category_totals_mine_value);
+  var breakline = '<br>';
+  var content = opening + h2title + h3title + openingParagraph;
+  content += aboriginal + breakline;
+  content += ecologyDiversity + breakline;
+  content += energyExtraction + breakline;
+  content += mining + breakline;
+  content += population + breakline;
+  content += protectedAreas + breakline;
+  content += closingParagraph + ending;
+  layer.bindPopup(content);
 }
 
 // Apply a styling on each map layer feature
@@ -125,7 +153,7 @@ Template.sliders.rendered = function(){
 			'min': 0,
 			'max': 10
 		}
-	}).on('slide change', function (ev, val) {
+	}).on('slide change click', function (ev, val) {
     console.log("slider1 - val = ",val);
     // set real values on 'slide' event
     type1Slider.set(val);
