@@ -3,6 +3,7 @@ var type2Slider = new ReactiveVar(0);
 var type3Slider = new ReactiveVar(0);
 var type4Slider = new ReactiveVar(0);
 var type5Slider = new ReactiveVar(0);
+var type6Slider = new ReactiveVar(0);
 
 // Global GeoJSON and Map reference
 var mapJson;
@@ -161,6 +162,18 @@ Template.sliders.rendered = function(){
     type5Slider.set(val);
     redrawMap();
   });
+
+  this.$("#slider6").noUiSlider({
+  	start: type6Slider.get(),
+  	range: {
+  		'min': 0,
+  		'max': 100
+  	}
+  }).on('slide change', function (ev, val) {
+    // set real values on 'slide' event
+    type6Slider.set(val);
+    redrawMap();
+  });
 }
 
 Template.sliders.helpers({
@@ -178,6 +191,9 @@ Template.sliders.helpers({
   },
   slider5: function () {
     return type5Slider.get();
+  }, 
+  slider6: function () {
+    return type6Slider.get();
   }
 });
 
