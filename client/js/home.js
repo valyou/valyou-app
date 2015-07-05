@@ -28,8 +28,8 @@ var drawMap = function(value) {
 
 // Redraw map layer
 var redrawMap = function() {
-  mapJson.eachLayer(function (layer) {      
-    layer.setStyle({ fillOpacity: getRandomInt(1, 10) / 10 });
+  mapJson.eachLayer(function (layer) {
+    layer.setStyle({ fillOpacity: getWeighted(layer.feature) });
   });
 }
   
@@ -45,13 +45,19 @@ function style(feature) {
     opacity: 1,
     color: 'green',
     dashArray: '3',
-    fillOpacity: getRandomInt(1, 10) / 10
+    fillOpacity: getWeighted(feature)
   };
 }
 
 // Convenience function: Get random integer within a range
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
+}
+
+// Get weighted value
+function getWeighted(feature) {
+  console.log(type1Slider.get() + " / " + feature.properties.category_totals_aboriginal_value + " / " + feature.properties.category_totals_aboriginal_value * type1Slider.get() / 100);
+  return feature.properties.category_totals_aboriginal_value * type1Slider.get() / 10;
 }
 
 Template.home.rendered = function(){
@@ -120,7 +126,7 @@ Template.sliders.rendered = function(){
   	start: type2Slider.get(),
     step: 1,
 		range: {
-			'min': 0,
+			'min': 1,
 			'max': 10
 		}
   }).on('slide change', function (ev, val) {
@@ -133,7 +139,7 @@ Template.sliders.rendered = function(){
   	start: type3Slider.get(),
     step: 1,
 		range: {
-			'min': 0,
+			'min': 1,
 			'max': 10
 		}
   }).on('slide change', function (ev, val) {
@@ -146,7 +152,7 @@ Template.sliders.rendered = function(){
   	start: type4Slider.get(),
     step: 1,
 		range: {
-			'min': 0,
+			'min': 1,
 			'max': 10
 		}
   }).on('slide change', function (ev, val) {
@@ -159,7 +165,7 @@ Template.sliders.rendered = function(){
   	start: type5Slider.get(),
     step: 1,
 		range: {
-			'min': 0,
+			'min': 1,
 			'max': 10
 		}
   }).on('slide change', function (ev, val) {
@@ -172,7 +178,7 @@ Template.sliders.rendered = function(){
   	start: type6Slider.get(),
     step: 1,
 		range: {
-			'min': 0,
+			'min': 1,
 			'max': 10
 		}
   }).on('slide change', function (ev, val) {
