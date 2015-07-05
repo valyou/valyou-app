@@ -63,7 +63,7 @@ Template.home.rendered = function(){
   var ZOOM_LVL = 5;
   
   // GeoJSON source URL path
-  var GEOJSON_URL = '/SA2_cutdown_web.json';
+  var GEOJSON_URL = '/SA2_cutdown_web.geojson';
 
   // Use jQuery to set container to 100% width and height
   var CONT_X = $(window).width();
@@ -108,12 +108,8 @@ Template.sliders.rendered = function(){
 			'min': 0,
 			'max': 100
 		}
-	}).on('slide', function (ev, val) {
+	}).on('slide change', function (ev, val) {
     // set real values on 'slide' event
-    type1Slider.set(val);
-    redrawMap();
-  }).on('change', function (ev, val) {
-    // round off values on 'change' event
     type1Slider.set(val);
     redrawMap();
   });
@@ -124,12 +120,10 @@ Template.sliders.rendered = function(){
   		'min': 0,
   		'max': 100
   	}
-  }).on('slide', function (ev, val) {
+  }).on('slide change', function (ev, val) {
     // set real values on 'slide' event
     type2Slider.set(val);
-  }).on('change', function (ev, val) {
-    // round off values on 'change' event
-    type2Slider.set(val);
+    redrawMap();
   });
 
   this.$("#slider3").noUiSlider({
@@ -138,13 +132,10 @@ Template.sliders.rendered = function(){
   		'min': 0,
   		'max': 100
   	}
-  }).on('slide', function (ev, val) {
+  }).on('slide change', function (ev, val) {
     // set real values on 'slide' event
     type3Slider.set(val);
-    drawMap()
-  }).on('change', function (ev, val) {
-    // round off values on 'change' event
-    type3Slider.set(val);
+    redrawMap();
   });
 
   this.$("#slider4").noUiSlider({
@@ -153,12 +144,10 @@ Template.sliders.rendered = function(){
   		'min': 0,
   		'max': 100
   	}
-  }).on('slide', function (ev, val) {
+  }).on('slide change', function (ev, val) {
     // set real values on 'slide' event
     type4Slider.set(val);
-  }).on('change', function (ev, val) {
-    // round off values on 'change' event
-    type4Slider.set(val);
+    redrawMap();
   });
 
   this.$("#slider5").noUiSlider({
@@ -167,14 +156,13 @@ Template.sliders.rendered = function(){
   		'min': 0,
   		'max': 100
   	}
-  }).on('slide', function (ev, val) {
+  }).on('slide change', function (ev, val) {
     // set real values on 'slide' event
     type5Slider.set(val);
-  }).on('change', function (ev, val) {
-    // round off values on 'change' event
-    type5Slider.set(val);
+    redrawMap();
   });
 }
+
 Template.sliders.helpers({
 	slider1: function () {
 		return type1Slider.get();
