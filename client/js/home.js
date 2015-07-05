@@ -146,6 +146,7 @@ var _rolePropertiesHelper = function(selectedRole){
   switch(selectedRole){
     case "1":
     var properties = [
+    "select",
     "property 1.1",
     "property 1.2",
     "property 1.3",
@@ -156,6 +157,7 @@ var _rolePropertiesHelper = function(selectedRole){
     break;
     case "2":
     var properties = [
+    "select",
     "property 2.1",
     "property 2.2",
     "property 2.3",
@@ -166,6 +168,7 @@ var _rolePropertiesHelper = function(selectedRole){
     break;
     case "3":
     var properties = [
+    "select",
     "property 3.1",
     "property 3.2",
     "property 3.3",
@@ -176,6 +179,7 @@ var _rolePropertiesHelper = function(selectedRole){
     break;
     case "4":
     var properties = [
+    "select",
     "property 4.1",
     "property 4.2",
     "property 4.3",
@@ -186,6 +190,7 @@ var _rolePropertiesHelper = function(selectedRole){
     break;
     case "5":
     var properties = [
+    "select",
     "property 5.1",
     "property 5.2",
     "property 5.3",
@@ -220,6 +225,7 @@ var _setSliderPropertiesHelper = function(val){
       adjustSliders([22,33,44,55,66]);
     break;
     default:
+      adjustSliders([0,0,0,0,0]);
     break;
   }
 };
@@ -230,8 +236,17 @@ var adjustSliders = function(val) {
   type3Slider.set(val[2]);
   type4Slider.set(val[3]);
   type5Slider.set(val[4]);
-  var firstStyle = "left:" + type1Slider.get() +"%";
-  $("#slider1").children().children().attr("style", firstStyle);
+
+  var stringConcat = function(number){
+    return "left:" + number + "%";
+  }
+
+  // var firstStyle = "left:" + type1Slider.get() +"%";
+  $("#slider1").children().children().attr("style", stringConcat(type1Slider.get()));
+  $("#slider2").children().children().attr("style", stringConcat(type2Slider.get()));
+  $("#slider3").children().children().attr("style", stringConcat(type3Slider.get()));
+  $("#slider4").children().children().attr("style", stringConcat(type4Slider.get()));
+  $("#slider5").children().children().attr("style", stringConcat(type5Slider.get()));
 
 }
 
