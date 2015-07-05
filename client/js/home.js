@@ -41,11 +41,11 @@ function onEachFeature(feature, layer) {
 // Apply a styling on each map layer feature
 function style(feature) {
   return {
-      weight: 2,
-      opacity: 1,
-      color: 'green',
-      dashArray: '3',
-      fillOpacity: getRandomInt(1, 10) / 10
+    weight: 2,
+    opacity: 1,
+    color: 'green',
+    dashArray: '3',
+    fillOpacity: getRandomInt(1, 10) / 10
   };
 }
 
@@ -105,9 +105,10 @@ Template.home.rendered = function(){
 Template.sliders.rendered = function(){
 	this.$("#slider1").noUiSlider({
 		start: type1Slider.get(),
+    step: 1,
 		range: {
 			'min': 0,
-			'max': 100
+			'max': 10
 		}
 	}).on('slide change', function (ev, val) {
     // set real values on 'slide' event
@@ -117,10 +118,11 @@ Template.sliders.rendered = function(){
 
   this.$("#slider2").noUiSlider({
   	start: type2Slider.get(),
-  	range: {
-  		'min': 0,
-  		'max': 100
-  	}
+    step: 1,
+		range: {
+			'min': 0,
+			'max': 10
+		}
   }).on('slide change', function (ev, val) {
     // set real values on 'slide' event
     type2Slider.set(val);
@@ -129,10 +131,11 @@ Template.sliders.rendered = function(){
 
   this.$("#slider3").noUiSlider({
   	start: type3Slider.get(),
-  	range: {
-  		'min': 0,
-  		'max': 100
-  	}
+    step: 1,
+		range: {
+			'min': 0,
+			'max': 10
+		}
   }).on('slide change', function (ev, val) {
     // set real values on 'slide' event
     type3Slider.set(val);
@@ -141,10 +144,11 @@ Template.sliders.rendered = function(){
 
   this.$("#slider4").noUiSlider({
   	start: type4Slider.get(),
-  	range: {
-  		'min': 0,
-  		'max': 100
-  	}
+    step: 1,
+		range: {
+			'min': 0,
+			'max': 10
+		}
   }).on('slide change', function (ev, val) {
     // set real values on 'slide' event
     type4Slider.set(val);
@@ -153,10 +157,11 @@ Template.sliders.rendered = function(){
 
   this.$("#slider5").noUiSlider({
   	start: type5Slider.get(),
-  	range: {
-  		'min': 0,
-  		'max': 100
-  	}
+    step: 1,
+		range: {
+			'min': 0,
+			'max': 10
+		}
   }).on('slide change', function (ev, val) {
     // set real values on 'slide' event
     type5Slider.set(val);
@@ -165,10 +170,11 @@ Template.sliders.rendered = function(){
 
   this.$("#slider6").noUiSlider({
   	start: type6Slider.get(),
-  	range: {
-  		'min': 0,
-  		'max': 100
-  	}
+    step: 1,
+		range: {
+			'min': 0,
+			'max': 10
+		}
   }).on('slide change', function (ev, val) {
     // set real values on 'slide' event
     type6Slider.set(val);
@@ -203,10 +209,6 @@ Template.sliders.events({
     Session.set("counter", Session.get("counter") + 1);
   }
 });
-
-var redraw = function(changeVal){
-
-}
 
 var dropdownReactive = new ReactiveVar("select a role");
 
