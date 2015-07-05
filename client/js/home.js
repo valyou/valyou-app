@@ -3,51 +3,54 @@ var type2Slider = new ReactiveVar(0);
 var type3Slider = new ReactiveVar(0);
 var type4Slider = new ReactiveVar(0);
 var type5Slider = new ReactiveVar(0);
-var map, jsonFile; // 1 map for 1 page
-var mapData;
-var mapJson = function(data){
-  return L.geoJson(data, {
-    onEachFeature: function (feature, layer) {
-      layer.bindPopup(feature.properties.name);
-    }
-  });
-}
 
-var applyMapJsonStyle = function(opacity) {
-  // return L.geoJson(mapData, {
-  //   style: {"color": "#ff7800", "weight": 1, "opacity": opacity},
-  //   onEachFeature: function (feature, layer) {
-  //     layer.bindPopup(feature.properties.name);
-  //   }
-  // });
+// Global GeoJSON and Map reference
+var mapJson;
+var map;
 
-  map.eachLayer(function(layer){
-    layer.setStyle({"color": "#ff7800", "weight": 1, "opacity": opacity});
-  })
-}
-
-var loadLayerMap = function(jsonFile){
+// Load / initialise layer map
+var loadLayerMap = function(jsonFile) {
   $.getJSON(jsonFile, function(data) {
-    
-    // mapJson = L.geoJson(data, {
-    //   onEachFeature: function (feature, layer) {
-    //     layer.bindPopup(feature.properties.name);
-    //   }
-    // });
-    mapData = data;
-    map.addLayer(mapJson(data));
-
-    // console.log(mapJson);
-    // console.log("map", map);
+    mapJson = L.geoJson(data, { style: style }, { onEachFeature: onEachFeature });
+    drawMap("anything");
   });
 };
 
-var drawMap = function(opacity){
-  // if (map.hasLayer() && mapJson){
-  //   map.removeLayer(mapJson);
-  // }
-  // map.addLayer(applyMapJsonStyle(opacity));
-  applyMapJsonStyle(opacity)
+// Draw / toggle map layer
+var drawMap = function(value) {
+  if (map.hasLayer() && mapJson) {
+    map.removeLayer(mapJson);
+  }
+  
+  map.addLayer(mapJson);
+}
+
+// Redraw map layer
+var redrawMap = function() {
+  mapJson.eachLayer(function (layer) {      
+    layer.setStyle({ fillOpacity: getRandomInt(1, 10) / 10 });
+  });
+}
+  
+// Apply a function on each map layer feature
+function onEachFeature(feature, layer) {
+  layer.bindPopup(feature.properties.SA2_NAME11);
+}
+
+// Apply a styling on each map layer feature
+function style(feature) {
+  return {
+    weight: 2,
+    opacity: 1,
+    color: 'green',
+    dashArray: '3',
+    fillOpacity: getRandomInt(1, 10) / 10
+  };
+}
+
+// Convenience function: Get random integer within a range
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
 }
 
 Template.home.rendered = function(){
@@ -76,17 +79,15 @@ Template.home.rendered = function(){
 Template.sliders.rendered = function(){
 	this.$("#slider1").noUiSlider({
 		start: type1Slider.get(),
+    step: 0.1,
 		range: {
 			'min': 0,
-			'max': 100
+			'max': 1
 		}
-	}).on('slide', function (ev, val) {
+	}).on('slide change', function (ev, val) {
     // set real values on 'slide' event
     type1Slider.set(val);
-    drawMap(Math.floor(val));
-  }).on('change', function (ev, val) {
-    // round off values on 'change' event
-    type1Slider.set(val);
+    redrawMap();
   });
 
   this.$("#slider2").noUiSlider({
