@@ -9,6 +9,7 @@ var type7Slider = new ReactiveVar(0);
 // Global GeoJSON and Map reference
 var mapJson;
 var map;
+var sidebar;
 
 // Load / initialise layer map
 var loadLayerMap = function(jsonFile) {
@@ -99,8 +100,9 @@ Template.home.rendered = function(){
           });
           
   // Set map's viewport to full width and height before initialisation
-  // $('#map').css({ width: CONT_X, height: CONT_Y });
+  $('#map').css({ width: CONT_X, height: CONT_Y });
   map = L.map('map').addLayer(tiles).setView([AUS_LAT, AUS_LNG], ZOOM_LVL);
+  sidebar = L.control.sidebar('sidebar').addTo(map);
 
   var i = 30;
   var icon_azure = L.icon({
