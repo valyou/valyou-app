@@ -5,9 +5,38 @@ var type4Slider = new ReactiveVar(0);
 var type5Slider = new ReactiveVar(0);
 
 Template.home.rendered = function(){
+  // ------------------------------------------------------------
+  // Constants
+  // ------------------------------------------------------------
+  // Default view
+  var AUS_LAT = -24.8;
+  var AUS_LNG = 123.2;
+  var ZOOM_LVL = 5;
+  
+  // GeoJSON source URL path
+  var GEOJSON_URL = '/SA2_cutdown_web.json';
 
-  var map = L.map('map').setView([-26, 130],4);//WA zoom
-
+  // Use jQuery to set container to 100% width and height
+  var CONT_X = $(window).width();
+  var CONT_Y = $(window).height();
+  
+  
+  // ------------------------------------------------------------
+  // Leaflet + MapBox + SideBar
+  // ------------------------------------------------------------
+  var tiles =
+      L.tileLayer(
+          'http://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png',
+          {
+              id: 'examples.map-i875mjb7',
+              attribution: '2015 &copy; ValYou',
+              maxZoom: 18
+          });
+          
+  // Set map's viewport to full width and height before initialisation
+  // $('#map').css({ width: CONT_X, height: CONT_Y });
+  var map = L.map('map').addLayer(tiles).setView([AUS_LAT, AUS_LNG], ZOOM_LVL);
+  
   var i = 30;
   var icon_azure = L.icon({
     iconUrl: 'img/icon_azure.png',
@@ -16,30 +45,37 @@ Template.home.rendered = function(){
     popupAnchor: [0, -i]
   });
 
-  L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    id: 'examples.map-i875mjb7'
-  }).addTo(map);//free MapBox basemap
+  // L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
+  //   maxZoom: 19,
+  //   id: 'examples.map-i875mjb7'
+  // }).addTo(map);//free MapBox basemap
 
-  gj01=Meteor.absoluteUrl('/SA2_cutdown_web.json');
-
-  // HTTP.get(Meteor.absoluteUrl("/lib/js/SA2_cutdown_web.geojson"), function(err, res){
-  // 	console.log(err);
-  // 	console.log(res);
-  // });
-  // console.log(gj01);
-  // console.log(myobject);
-  console.log(gj01);
+  gj01=Meteor.absoluteUrl(GEOJSON_URL);
+  
   $.getJSON(gj01, function(data) {
-  	console.log(data);
-    var places = L.geoJson(data, {
-      onEachFeature: function (feature, layer) {
-        layer.bindPopup(feature.properties.name);
-      }
-    });
+    var places = L.geoJson(data, { style: style }, { onEachFeature: onEachFeature });
     map.addLayer(places);
   });
-
+  
+  // Apply a function on each map layer feature
+  function onEachFeature(feature, layer) {
+    layer.bindPopup(feature.properties.SA2_NAME11);
+  }
+  
+  function style(feature) {
+    return {
+        weight: 2,
+        opacity: 1,
+        color: 'green',
+        dashArray: '3',
+        fillOpacity: getRandomInt(1, 10) / 10
+    };
+  }
+ 
+  // Convenience function: Get random integer within a range
+  function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
+  }
 }
 
 Template.sliders.rendered = function(){
