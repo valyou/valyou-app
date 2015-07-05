@@ -1,9 +1,9 @@
-var type1Slider = new ReactiveVar(0);
-var type2Slider = new ReactiveVar(0);
-var type3Slider = new ReactiveVar(0);
-var type4Slider = new ReactiveVar(0);
-var type5Slider = new ReactiveVar(0);
-var type6Slider = new ReactiveVar(0);
+var type1Slider = new ReactiveVar(1);
+var type2Slider = new ReactiveVar(1);
+var type3Slider = new ReactiveVar(1);
+var type4Slider = new ReactiveVar(1);
+var type5Slider = new ReactiveVar(1);
+var type6Slider = new ReactiveVar(1);
 
 // Global GeoJSON and Map reference
 var mapJson;
@@ -59,7 +59,8 @@ function getWeighted(feature) {
   var props = feature.properties;
   var aboriginal_value = props.category_totals_aboriginal_value * type1Slider.get() / 10;
   var conservation_value = props.category_totals_conservation_value * type2Slider.get() / 100;
-  return (aboriginal_value + conservation_value) / 2;
+  var ecology_value = props.category_totals_ecology_value * type3Slider.get() / 100;
+  return (aboriginal_value + conservation_value + ecology_value) / 3;
 }
 
 Template.home.rendered = function(){
