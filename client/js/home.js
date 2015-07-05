@@ -4,9 +4,37 @@ var type3Slider = new ReactiveVar(0);
 var type4Slider = new ReactiveVar(0);
 var type5Slider = new ReactiveVar(0);
 
+var mapJson;
+var map;
+
+var loadLayerMap = function(jsonFile){
+  $.getJSON(jsonFile, function(data) {
+    
+    mapJson = L.geoJson(data, {
+      onEachFeature: function (feature, layer) {
+        layer.bindPopup(feature.properties.name);
+      }
+    });
+    
+    map.addLayer(mapJson);
+
+    console.log(mapJson);
+    console.log("map", map);
+  });
+};
+
+var drawMap = function(value){
+  if (map.hasLayer() && mapJson){
+    map.removeLayer(mapJson);
+  }
+  console.log(mapJson);
+  map.addLayer(mapJson);
+}
+
 Template.home.rendered = function(){
 
-  var map = L.map('map').setView([-26, 130],4);//WA zoom
+  // instantiate map variable
+  map = L.map('map').setView([-26, 130],4);//WA zoom
 
   var i = 30;
   var icon_azure = L.icon({
@@ -21,25 +49,9 @@ Template.home.rendered = function(){
     id: 'examples.map-i875mjb7'
   }).addTo(map);//free MapBox basemap
 
-  gj01=Meteor.absoluteUrl('/SA2_cutdown_web.json');
+  gj01 = Meteor.absoluteUrl('/SA2_cutdown_web.json');
 
-  // HTTP.get(Meteor.absoluteUrl("/lib/js/SA2_cutdown_web.geojson"), function(err, res){
-  // 	console.log(err);
-  // 	console.log(res);
-  // });
-  // console.log(gj01);
-  // console.log(myobject);
-  console.log(gj01);
-  $.getJSON(gj01, function(data) {
-  	console.log(data);
-    var places = L.geoJson(data, {
-      onEachFeature: function (feature, layer) {
-        layer.bindPopup(feature.properties.name);
-      }
-    });
-    map.addLayer(places);
-  });
-
+  loadLayerMap(gj01); // instantiate mapJson here also
 }
 
 Template.sliders.rendered = function(){
@@ -80,6 +92,7 @@ Template.sliders.rendered = function(){
   }).on('slide', function (ev, val) {
     // set real values on 'slide' event
     type3Slider.set(val);
+    drawMap()
   }).on('change', function (ev, val) {
     // round off values on 'change' event
     type3Slider.set(val);
@@ -137,6 +150,10 @@ Template.sliders.events({
     Session.set("counter", Session.get("counter") + 1);
   }
 });
+
+var redraw = function(changeVal){
+
+}
 
 var dropdownReactive = new ReactiveVar("select a role");
 
