@@ -58,14 +58,21 @@ function getRandomInt(min, max) {
 // Get weighted value
 function getWeighted(feature) {
   var props = feature.properties;
-  var aboriginal_value = props.category_totals_aboriginal_value * type1Slider.get() / 10;
-  var conservation_value = props.category_totals_conservation_value * type2Slider.get() / 100;
-  var ecology_value = props.category_totals_ecology_value * type3Slider.get() / 100;
-  var economy_value = props.category_totals_economy_value * type4Slider.get() / 100;
-  var energy_value = props.category_totals_energy_value * type5Slider.get() / 100;
-  var mine_value = props.category_totals_mine_value * type6Slider.get() / 100;
-  var pop_value = props.category_totals_population_value * type7Slider.get() / 100;
-  return ((aboriginal_value + conservation_value + ecology_value + economy_value + energy_value + mine_value + pop_value) / 7 * 0.9);
+  var aboriginal_value = props.category_totals_aboriginal_value * (type1Slider.get() / 10);
+  // console.log("aboriginal_value", aboriginal_value);
+  var conservation_value = props.category_totals_conservation_value * (type2Slider.get() / 100);
+  // console.log("conservation_value", conservation_value);
+  var ecology_value = props.category_totals_ecology_value * (type3Slider.get() / 100);
+  // console.log("ecology_value", ecology_value);
+  var economy_value = props.category_totals_economy_value * (type4Slider.get() / 100);
+  // console.log("economy_value", economy_value);
+  var energy_value = props.category_totals_energy_value * (type5Slider.get() / 100);
+  // console.log("energy_value", energy_value);
+  var mine_value = props.category_totals_mine_value * (type6Slider.get() / 100);
+  console.log("mine_value", mine_value);
+  // var pop_value = props.category_totals_population_value * (type7Slider.get() / 100);
+  // console.log("pop_value", pop_value);
+  return ((aboriginal_value + conservation_value + ecology_value + economy_value + energy_value + mine_value) / 7 * 0.9);
 }
 
 Template.home.rendered = function(){
@@ -78,7 +85,7 @@ Template.home.rendered = function(){
   var ZOOM_LVL = 5;
   
   // GeoJSON source URL path
-  var GEOJSON_URL = '/SA2_cutdown_web.geojson';
+  var GEOJSON_URL = 'SA2_cutdown_web.geojson';
 
   // Use jQuery to set container to 100% width and height
   var CONT_X = $(window).width();
@@ -125,6 +132,7 @@ Template.sliders.rendered = function(){
 			'max': 10
 		}
 	}).on('slide change', function (ev, val) {
+    console.log("slider1 - val = ",val);
     // set real values on 'slide' event
     type1Slider.set(val);
     redrawMap();
@@ -138,6 +146,7 @@ Template.sliders.rendered = function(){
 			'max': 10
 		}
   }).on('slide change', function (ev, val) {
+    console.log("slider2 - val = ",val);
     // set real values on 'slide' event
     type2Slider.set(val);
     redrawMap();
@@ -151,6 +160,7 @@ Template.sliders.rendered = function(){
 			'max': 10
 		}
   }).on('slide change', function (ev, val) {
+    console.log("slider3 - val = ",val);
     // set real values on 'slide' event
     type3Slider.set(val);
     redrawMap();
@@ -164,6 +174,7 @@ Template.sliders.rendered = function(){
 			'max': 10
 		}
   }).on('slide change', function (ev, val) {
+    console.log("slider4 - val = ",val);
     // set real values on 'slide' event
     type4Slider.set(val);
     redrawMap();
@@ -177,6 +188,7 @@ Template.sliders.rendered = function(){
 			'max': 10
 		}
   }).on('slide change', function (ev, val) {
+    console.log("slider5 - val = ",val);
     // set real values on 'slide' event
     type5Slider.set(val);
     redrawMap();
@@ -191,6 +203,7 @@ Template.sliders.rendered = function(){
 		}
   }).on('slide change', function (ev, val) {
     // set real values on 'slide' event
+    console.log("slider6 - val = ",val);
     type6Slider.set(val);
     redrawMap();
   });
@@ -204,6 +217,7 @@ Template.sliders.rendered = function(){
 		}
   }).on('slide change', function (ev, val) {
     // set real values on 'slide' event
+    console.log("slider7 - val = ",val);
     type7Slider.set(val);
     redrawMap();
   });
@@ -307,7 +321,35 @@ var _rolePropertiesHelper = function(selectedRole){
 }
 
 var _setRolePropertiesHelper = function(val){
-  _rolePropertiesHelper(val);
+  // _rolePropertiesHelper(val);
+  switch(val) {
+    case "Investment Opportunities":
+      // console.log("Investment Opportunities Selected");
+      // adjustSliders([8,5,1,7,8,1]);
+      adjustSliders([5,1,1,7,8,8,7])
+      redrawMap();
+      // mapJson.eachLayer(function (layer) {
+
+      //   aboriginal_value + conservation_value + ecology_value + economy_value + energy_value + mine_value + pop_value) / 7 * 0.9
+      //   layer.setStyle({ fillOpacity: getWeighted(layer.feature) });
+      // });
+    break;
+    case "Environmental Awareness":
+      // console.log("Environmental Awareness Selected");
+      adjustSliders([7,10,10,4,1,1]);
+      // redrawMap();
+    break;
+    case "Cultural Significance":
+      // console.log("Cultural Significance Selected");
+      adjustSliders([10,8,10,5,3,3]);
+      // redrawMap();
+    break;
+    default:
+      adjustSliders([0,0,0,0,0,0]);
+      // redrawMap();
+    break;
+  }
+
 };
 
 Template.dropdown.helpers({
@@ -316,23 +358,25 @@ Template.dropdown.helpers({
 	}
 });
 
-var _setSliderPropertiesHelper = function(val){
-  switch(val) {
-    case "property 1.1":
-      console.log("case: property1.1 ");
-      adjustSliders([11,22,33,44,55]);
-    break;
-    case "property 1.2":
-      console.log("case: property1.2");
-      adjustSliders([22,33,44,55,66]);
-    break;
-    default:
-      adjustSliders([0,0,0,0,0]);
-    break;
-  }
-};
+// var _setSliderPropertiesHelper = function(val){
+//   switch(val) {
+//     case "property 1.1":
+//       console.log("case: property1.1 ");
+//       adjustSliders([11,22,33,44,55]);
+//       redrawMap();
+//     break;
+//     case "property 1.2":
+//       console.log("case: property1.2");
+//       adjustSliders([22,33,44,55,66]);
+//     break;
+//     default:
+//       adjustSliders([0,0,0,0,0]);
+//     break;
+//   }
+// };
 
 var adjustSliders = function(val) {
+  console.log("adjustSliders()", val);
   type1Slider.set(val[0]);
   type2Slider.set(val[1]);
   type3Slider.set(val[2]);
@@ -342,7 +386,7 @@ var adjustSliders = function(val) {
   type7Slider.set(val[6]);
 
   var stringConcat = function(number){
-    return "left:" + number + "%";
+    return "left:" + number * 10 + "%";
   }
 
   // var firstStyle = "left:" + type1Slider.get() +"%";
