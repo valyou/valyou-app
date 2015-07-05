@@ -96,11 +96,8 @@ Template.sliders.rendered = function(){
   		'min': 0,
   		'max': 100
   	}
-  }).on('slide', function (ev, val) {
+  }).on('slide change', function (ev, val) {
     // set real values on 'slide' event
-    type2Slider.set(val);
-  }).on('change', function (ev, val) {
-    // round off values on 'change' event
     type2Slider.set(val);
   });
 
@@ -110,13 +107,10 @@ Template.sliders.rendered = function(){
   		'min': 0,
   		'max': 100
   	}
-  }).on('slide', function (ev, val) {
+  }).on('slide change', function (ev, val) {
     // set real values on 'slide' event
     type3Slider.set(val);
     drawMap()
-  }).on('change', function (ev, val) {
-    // round off values on 'change' event
-    type3Slider.set(val);
   });
 
   this.$("#slider4").noUiSlider({
@@ -125,11 +119,8 @@ Template.sliders.rendered = function(){
   		'min': 0,
   		'max': 100
   	}
-  }).on('slide', function (ev, val) {
+  }).on('slide change', function (ev, val) {
     // set real values on 'slide' event
-    type4Slider.set(val);
-  }).on('change', function (ev, val) {
-    // round off values on 'change' event
     type4Slider.set(val);
   });
 
@@ -139,11 +130,8 @@ Template.sliders.rendered = function(){
   		'min': 0,
   		'max': 100
   	}
-  }).on('slide', function (ev, val) {
+  }).on('slide change', function (ev, val) {
     // set real values on 'slide' event
-    type5Slider.set(val);
-  }).on('change', function (ev, val) {
-    // round off values on 'change' event
     type5Slider.set(val);
   });
 }
