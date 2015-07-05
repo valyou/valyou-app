@@ -4,6 +4,7 @@ var type3Slider = new ReactiveVar(0);
 var type4Slider = new ReactiveVar(0);
 var type5Slider = new ReactiveVar(0);
 var type6Slider = new ReactiveVar(0);
+var type7Slider = new ReactiveVar(0);
 
 // Global GeoJSON and Map reference
 var mapJson;
@@ -63,7 +64,8 @@ function getWeighted(feature) {
   var economy_value = props.category_totals_economy_value * type4Slider.get() / 100;
   var energy_value = props.category_totals_energy_value * type5Slider.get() / 100;
   var mine_value = props.category_totals_mine_value * type6Slider.get() / 100;
-  return (aboriginal_value + conservation_value + ecology_value + economy_value + energy_value + mine_value) / 6;
+  var pop_value = props.category_totals_population_value * type7Slider.get() / 100;
+  return (aboriginal_value + conservation_value + ecology_value + economy_value + energy_value + mine_value + pop_value) / 7;
 }
 
 Template.home.rendered = function(){
@@ -192,6 +194,19 @@ Template.sliders.rendered = function(){
     type6Slider.set(val);
     redrawMap();
   });
+  
+  this.$("#slider7").noUiSlider({
+  	start: type7Slider.get(),
+    step: 1,
+		range: {
+			'min': 0,
+			'max': 10
+		}
+  }).on('slide change', function (ev, val) {
+    // set real values on 'slide' event
+    type7Slider.set(val);
+    redrawMap();
+  });
 }
 
 Template.sliders.helpers({
@@ -212,6 +227,9 @@ Template.sliders.helpers({
   }, 
   slider6: function () {
     return type6Slider.get();
+  }, 
+  slider7: function () {
+    return type7Slider.get();
   }
 });
 
@@ -320,6 +338,8 @@ var adjustSliders = function(val) {
   type3Slider.set(val[2]);
   type4Slider.set(val[3]);
   type5Slider.set(val[4]);
+  type6Slider.set(val[5]);
+  type7Slider.set(val[6]);
 
   var stringConcat = function(number){
     return "left:" + number + "%";
@@ -331,6 +351,8 @@ var adjustSliders = function(val) {
   $("#slider3").children().children().attr("style", stringConcat(type3Slider.get()));
   $("#slider4").children().children().attr("style", stringConcat(type4Slider.get()));
   $("#slider5").children().children().attr("style", stringConcat(type5Slider.get()));
+  $("#slider6").children().children().attr("style", stringConcat(type6Slider.get()));
+  $("#slider7").children().children().attr("style", stringConcat(type7Slider.get()));
 
 }
 
