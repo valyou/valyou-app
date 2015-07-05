@@ -9,7 +9,7 @@ var type6Slider = new ReactiveVar(0);
 var mapJson;
 var map;
 var sidebar;
-var max;
+var max = 0;
 
 // Load / initialise layer map
 var loadLayerMap = function(jsonFile) {
@@ -59,12 +59,12 @@ function getRandomInt(min, max) {
 // Get weighted value
 function getWeighted(feature) {
   var props = feature.properties;
-  var aboriginal_value = props.category_totals_aboriginal_value * type1Slider.get() / 10;
+  var aboriginal_value = props.category_totals_aboriginal_value * type1Slider.get() / 15;
   var conservation_value = props.category_totals_conservation_value * type2Slider.get() / 100;
   var ecology_value = props.category_totals_ecology_value * type3Slider.get() / 100;
   var economy_value = props.category_totals_economy_value * type4Slider.get() / 100;
-  var energy_value = props.category_totals_energy_value * type5Slider.get() / 100;
-  var mine_value = props.category_totals_mine_value * type6Slider.get() / 100;
+  var energy_value = props.category_totals_energy_value * type5Slider.get() / 175;  
+  var mine_value = props.category_totals_mine_value * type6Slider.get() / 200;
   return ((aboriginal_value + conservation_value + ecology_value + economy_value + energy_value + mine_value) / 6 * 0.9);
 }
 
@@ -126,8 +126,6 @@ Template.sliders.rendered = function(){
 			'max': 10
 		}
 	}).on('slide change', function (ev, val) {
-    console.log("slider1 - val = ",val);
-    // set real values on 'slide' event
     type1Slider.set(val);
     redrawMap();
   });
@@ -140,8 +138,6 @@ Template.sliders.rendered = function(){
 			'max': 10
 		}
   }).on('slide change', function (ev, val) {
-    console.log("slider2 - val = ",val);
-    // set real values on 'slide' event
     type2Slider.set(val);
     redrawMap();
   });
@@ -154,8 +150,6 @@ Template.sliders.rendered = function(){
 			'max': 10
 		}
   }).on('slide change', function (ev, val) {
-    console.log("slider3 - val = ",val);
-    // set real values on 'slide' event
     type3Slider.set(val);
     redrawMap();
   });
@@ -168,8 +162,6 @@ Template.sliders.rendered = function(){
 			'max': 10
 		}
   }).on('slide change', function (ev, val) {
-    console.log("slider4 - val = ",val);
-    // set real values on 'slide' event
     type4Slider.set(val);
     redrawMap();
   });
@@ -182,8 +174,6 @@ Template.sliders.rendered = function(){
 			'max': 10
 		}
   }).on('slide change', function (ev, val) {
-    console.log("slider5 - val = ",val);
-    // set real values on 'slide' event
     type5Slider.set(val);
     redrawMap();
   });
@@ -196,8 +186,6 @@ Template.sliders.rendered = function(){
 			'max': 10
 		}
   }).on('slide change', function (ev, val) {
-    // set real values on 'slide' event
-    console.log("slider6 - val = ",val);
     type6Slider.set(val);
     redrawMap();
   });
@@ -298,35 +286,21 @@ var _rolePropertiesHelper = function(selectedRole){
 }
 
 var _setRolePropertiesHelper = function(val){
-  // _rolePropertiesHelper(val);
   switch(val) {
     case "Investment Opportunities":
-      // console.log("Investment Opportunities Selected");
-      // adjustSliders([8,5,1,7,8,1]);
-      adjustSliders([5,1,1,7,8,8,7])
-      redrawMap();
-      // mapJson.eachLayer(function (layer) {
-
-      //   aboriginal_value + conservation_value + ecology_value + economy_value + energy_value + mine_value + pop_value) / 7 * 0.9
-      //   layer.setStyle({ fillOpacity: getWeighted(layer.feature) });
-      // });
+      adjustSliders([5,1,1,7,8,8,7]);
       break;
       
     case "Environmental Awareness":
-      // console.log("Environmental Awareness Selected");
       adjustSliders([7,10,10,4,1,1]);
-      // redrawMap();
       break;
       
     case "Cultural Significance":
-      // console.log("Cultural Significance Selected");
       adjustSliders([10,8,10,5,3,3]);
-      // redrawMap();
       break;
       
     default:
       adjustSliders([0,0,0,0,0,0]);
-      // redrawMap();
       break;
   }
 
