@@ -73,7 +73,7 @@ Template.home.rendered = function(){
   // ------------------------------------------------------------
   // Default view
   var AUS_LAT = -24.8;
-  var AUS_LNG = 123.2;
+  var AUS_LNG = 118.2;
   var ZOOM_LVL = 5;
   
   // Preset locations
@@ -103,7 +103,7 @@ Template.home.rendered = function(){
           
   // Set map's viewport to full width and height before initialisation
   $('#map').css({ width: CONT_X, height: CONT_Y });
-  map = L.map('map').addLayer(tiles).setView(LOC_PERTH, 10);
+  map = L.map('map').addLayer(tiles).setView(LOC_WA, 5);
   sidebar = L.control.sidebar('sidebar').addTo(map);
 
   var i = 30;

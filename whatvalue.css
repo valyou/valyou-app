@@ -46,3 +46,16 @@
 .sidebar-pane#categories .sliders div {
 	margin-bottom: 30px;
 }
+
+.sidebar-pane#credits h1 {
+	border-bottom: 1px solid #e0e0e0;
+	font-weight: bold;
+	margin-bottom: 20px;
+	padding-bottom: 20px;
+}
+
+.sidebar-pane#credits .entries p {
+	border-bottom: 1px solid #e0e0e0;
+	padding-bottom: 20px;
+	margin-bottom: 20px;
+}
