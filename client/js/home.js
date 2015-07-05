@@ -3,32 +3,51 @@ var type2Slider = new ReactiveVar(0);
 var type3Slider = new ReactiveVar(0);
 var type4Slider = new ReactiveVar(0);
 var type5Slider = new ReactiveVar(0);
+var map, jsonFile; // 1 map for 1 page
+var mapData;
+var mapJson = function(data){
+  return L.geoJson(data, {
+    onEachFeature: function (feature, layer) {
+      layer.bindPopup(feature.properties.name);
+    }
+  });
+}
 
-var mapJson;
-var map;
+var applyMapJsonStyle = function(opacity) {
+  // return L.geoJson(mapData, {
+  //   style: {"color": "#ff7800", "weight": 1, "opacity": opacity},
+  //   onEachFeature: function (feature, layer) {
+  //     layer.bindPopup(feature.properties.name);
+  //   }
+  // });
+
+  map.eachLayer(function(layer){
+    layer.setStyle({"color": "#ff7800", "weight": 1, "opacity": opacity});
+  })
+}
 
 var loadLayerMap = function(jsonFile){
   $.getJSON(jsonFile, function(data) {
     
-    mapJson = L.geoJson(data, {
-      onEachFeature: function (feature, layer) {
-        layer.bindPopup(feature.properties.name);
-      }
-    });
-    
-    map.addLayer(mapJson);
+    // mapJson = L.geoJson(data, {
+    //   onEachFeature: function (feature, layer) {
+    //     layer.bindPopup(feature.properties.name);
+    //   }
+    // });
+    mapData = data;
+    map.addLayer(mapJson(data));
 
-    console.log(mapJson);
-    console.log("map", map);
+    // console.log(mapJson);
+    // console.log("map", map);
   });
 };
 
-var drawMap = function(value){
-  if (map.hasLayer() && mapJson){
-    map.removeLayer(mapJson);
-  }
-  console.log(mapJson);
-  map.addLayer(mapJson);
+var drawMap = function(opacity){
+  // if (map.hasLayer() && mapJson){
+  //   map.removeLayer(mapJson);
+  // }
+  // map.addLayer(applyMapJsonStyle(opacity));
+  applyMapJsonStyle(opacity)
 }
 
 Template.home.rendered = function(){
@@ -49,9 +68,9 @@ Template.home.rendered = function(){
     id: 'examples.map-i875mjb7'
   }).addTo(map);//free MapBox basemap
 
-  gj01 = Meteor.absoluteUrl('/SA2_cutdown_web.json');
+  jsonFile = Meteor.absoluteUrl('/SA2_cutdown_web.json');
 
-  loadLayerMap(gj01); // instantiate mapJson here also
+  loadLayerMap(jsonFile); // instantiate mapJson within loadLayerMap()
 }
 
 Template.sliders.rendered = function(){
@@ -64,6 +83,7 @@ Template.sliders.rendered = function(){
 	}).on('slide', function (ev, val) {
     // set real values on 'slide' event
     type1Slider.set(val);
+    drawMap(Math.floor(val));
   }).on('change', function (ev, val) {
     // round off values on 'change' event
     type1Slider.set(val);
